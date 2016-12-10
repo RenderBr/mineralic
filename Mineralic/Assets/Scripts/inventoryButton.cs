@@ -7,13 +7,14 @@ public class inventoryButton : MonoBehaviour
     public GameObject menu; // Assign in inspector
     public GameObject[] tileGUI = new GameObject[7];
     public GameObject[] freeSlots = new GameObject[19];
+    public GameObject[] craftAble = new GameObject[2];
     public bool full;
     public bool isShowing;
     public int used = 0;
 
     void Start()
     {
-        for(int i = 0; i < freeSlots.Length; i++)
+        for (int i = 0; i < freeSlots.Length; i++)
         {
             freeSlots[i] = null;
         }
@@ -21,10 +22,10 @@ public class inventoryButton : MonoBehaviour
 
     public bool AddInventory(GameObject go)
     {
-        for(int i = 0; i < freeSlots.Length; i++)
+        for (int i = 0; i < freeSlots.Length; i++)
         {
             if (freeSlots[i] == go) return false;
-            if(freeSlots[i] == null )
+            if (freeSlots[i] == null)
             {
                 freeSlots[i] = go;
                 return true;
@@ -39,7 +40,7 @@ public class inventoryButton : MonoBehaviour
         {
             isShowing = !isShowing;
             menu.SetActive(isShowing);
-            if (GetComponent<Inventory> ().counts[0] >= 1)
+            if (GetComponent<Inventory>().counts[0] >= 1)
             {
 
                 if (AddInventory(tileGUI[0]))
@@ -47,7 +48,7 @@ public class inventoryButton : MonoBehaviour
                     tileGUI[0].SetActive(true);
                     used++;
                 }
-                
+
             }
 
             if (GetComponent<Inventory>().counts[1] >= 1)
@@ -112,23 +113,42 @@ public class inventoryButton : MonoBehaviour
                     used++;
                 }
             }
+            if (GetComponent<Inventory>().counts[0] >= 4)
+            {
+                craftAble[0].SetActive(true);
+            }
             int x = 150;
             int inc = 102;
             for (int i = 0; i < freeSlots.Length; i++)
             {
-               
+
                 int y = 250;
                 int yy = 352;
                 if (freeSlots[i] != null)
                 {
-                    if (used < 5) { 
-                    freeSlots[i].transform.position = new Vector3(x + (i * inc), y);
-                    } else if (used > 5)
+                    if (used < 5)
                     {
                         freeSlots[i].transform.position = new Vector3(x + (i * inc), y);
                     }
-                } 
-               
+                    else if (used > 5)
+                    {
+                        freeSlots[i].transform.position = new Vector3(x + (i * inc), y);
+                    }
+                }
+
+            }
+        }
+    }
+
+    public void craftStone()
+    {
+        if(GetComponent<Inventory> ().counts[0] >= 4)
+        {
+            GetComponent<Inventory>().counts[0] -= 4;
+            GetComponent<Inventory>().counts[8] += 1;
+            if (GetComponent<Inventory>().counts[0] >= 4)
+            {
+                gameObject.SetActive(false);
             }
         }
     }
