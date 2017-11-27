@@ -148,7 +148,7 @@ public class inventoryButton : MonoBehaviour
             GetComponent<Inventory>().counts[8] += 1;
             if (GetComponent<Inventory>().counts[0] >= 4)
             {
-                gameObject.SetActive(false);
+				craftAble[0].SetActive(false);
             }
         }
     }
